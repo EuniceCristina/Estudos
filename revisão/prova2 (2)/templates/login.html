@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 5%;
+        }
+        h1{
+            color: brown;
+        }
+        button{
+            width: 150px;
+            height: 40px;
+            background-color: brown;
+            color: white;
+            border-radius: 10px;
+            border: 1px solid brown;
+        }
+    </style>
+</head>
+<body>
+    <h1>Entre agora</h1>
+    <form action="{{url_for('login')}}" method="POST">
+        <input type="text" name="nome" placeholder="Seu nome"><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>

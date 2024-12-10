@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            padding: 5%;
+        }
+        h1{
+            color: brown;
+        }
+        button{
+            width: 150px;
+            height: 40px;
+            background-color: brown;
+            color: white;
+            border-radius: 10px;
+            border: 1px solid brown;
+        }
+        .div{
+            width: 250px;
+            height: 150px;
+            border: 2px solid brown;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 2%;
+           
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem vindo, {{nome}}!</h1>
+    <h3>Envie seus registros aqui</h3>
+    <form action="{{url_for('resultados')}}" method="POST">
+        Sua distância (em Km) :  <input type="number" name="distancia" placeholder="Distância"><br><br>
+        Seu tempo em km/h : <input type="number" name="tempo" placeholder="Tempo"><br><br>
+        <button type="submit">Enviar</button>
+        
+    </form>
+    <h4>{{texto}}</h4>
+    <br><br>
+
+    <h3>Seus resltados:</h3>
+    
+   
+        {%for res in resultados%}
+        <div class="div">
+        <p>Sua distancia: {{res['distancia']}} km</p>
+        <p>Seu tempo em : {{res['tempo']}} Km/h</p>
+        </div>
+        {%endfor%}
+    
+        
+</body>
+</html>

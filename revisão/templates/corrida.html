@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Bem vindo as corridas, {{nome}}!</h1>
+    <a href="{{url_for('index')}}"><button>Sair</button></a>
+    <form  method="post" action="{{url_for('corrida')}}">
+        <input type="text" name="distancia" placeholder="Sua distância:">
+        <input type="tempo" name="tempo" placeholder="Seu tempo: ">
+        <button>Enviar</button>
+    </form>
+
+    <h3>Sua corridas</h3>
+    <ul>
+        {% for m in user_corridas %}
+        <li>Sua distância: {{m['distancia']}}m</li>
+        <li>Seu tempo: {{m['tempo']}}</li></br>
+        {% endfor %}
+    </ul>
+</body>
+</html>
