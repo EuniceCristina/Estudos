@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Bem vindo a página incial!</h1>
+    <p>Não tem registro? <a href="{{url_for('register')}}">Register-se</a></p>
+    <br><br>
+    <h3>Alunos registrados</h3>
+    <ul>
+        {% for user in users %}
+        <li><p>{{user}}</p></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
