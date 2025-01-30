@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Produtos</h2>
+    <ul>
+        {% for produto in produtos %}
+            <li>{{ produto.nome }} - {{ produto.tipo }} - R$ {{ produto.preco }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Adicionar Produto</h3>
+    <form action="{{ url_for('add_produto') }}" method="POST">
+        <input type="text" name="nome" placeholder="Nome do Produto" required>
+        <input type="text" name="tipo" placeholder="Tipo (vaso, planta, flor)" required>
+        <input type="number" step="0.01" name="preco" placeholder="Preço" required>
+        <button type="submit">Adicionar</button>
+    </form>
+{% endblock %}

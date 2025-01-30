@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Clientes</h2>
+    <ul>
+        {% for cliente in clientes %}
+            <li>{{ cliente.nome }} - {{ cliente.telefone }} (RG: {{ cliente.rg }})</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Adicionar Cliente</h3>
+    <form action="{{ url_for('add_cliente') }}" method="POST">
+        <input type="text" name="rg" placeholder="RG" required>
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="telefone" placeholder="Telefone" required>
+        <button type="submit">Adicionar</button>
+    </form>
+{% endblock %}

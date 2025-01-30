@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">Início</a>
+        <a href="{{ url_for('clientes') }}">Clientes</a>
+        <a href="{{ url_for('produtos') }}">Produtos</a>
+        <a href="{{ url_for('pedidos') }}">Pedidos</a>
+    </nav>
+
+    <div class="container">
+        <h2>Registrar Novo Pedido</h2>
+        <form action="{{ url_for('add_pedido') }}" method="POST">
+            <label for="cliente_id">Cliente:</label>
+            <select name="cliente_id" required>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+                {% endfor %}
+            </select>
+
+           
+            <label for="produtos">Produtos:</label>
+            {% for produto in produtos %}
+                <div>
+                    <input type="checkbox" name="produtos" value="{{ produto.id }}"> 
+                    {{ produto.nome }} - R$ {{ produto.preco }}
+                </div>
+            {% endfor %}
+
+            <button type="submit">Registrar Pedido</button>
+        </form>
+
+        <h2>Lista de Pedidos</h2>
+        <ul>
+            {% for pedido in pedidos %}
+                <li>
+                    Pedido #{{ pedido.id }} - Cliente: {{ pedido.cliente.nome }} - Data: {{ pedido.data_pedido.strftime('%d/%m/%Y') }}
+                    <ul>
+                        {% for pedido_produto in pedido.produtos %}
+                            <li>{{ pedido_produto.produto.nome }} - R$ {{ pedido_produto.produto.preco }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
