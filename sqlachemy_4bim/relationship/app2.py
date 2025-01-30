@@ -1,9 +1,6 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy import create_engine, Table, Column, ForeignKey
+from sqlalchemy.orm import Session, DeclarativeBase, Mapped, mapped_column, relationship
 from typing import List
-from sqlalchemy import Table,Column, ForeignKey
 
 engine = create_engine('sqlite:///exemplo2.db')
 session = Session(bind=engine)
@@ -11,35 +8,54 @@ session = Session(bind=engine)
 class Base(DeclarativeBase):
     pass
 
+# Associative table for Many-to-Many relationship
 estudante_curso = Table(
     "estudante_cursos",
     Base.metadata,
     Column('estudante_id', ForeignKey('estudantes.id'), primary_key=True),
-    Column('curso_id', ForeignKey('curso.id'), primary_key=True),
+    Column('curso_id', ForeignKey('cursos.id'), primary_key=True),
 )
 
-# relacionamento NxN
+# Many-to-Many Relationship
 class Curso(Base):
     __tablename__ = 'cursos'
     id: Mapped[int] = mapped_column(primary_key=True)
-    nome: Mapped[str]
-    estudantes:Mapped[List['Estudante']] = relationship('Estudante', backref='curso')
+    nome: Mapped[str] = mapped_column(nullable=False)
+    
+    # Correct Many-to-Many relationship
+    estudantes: Mapped[List['Estudante']] = relationship(
+        "Estudante",
+        secondary=estudante_curso,
+        back_populates="cursos"
+    )
 
 class Estudante(Base):
-    __tablename__ = 'Estudante'
+    __tablename__ = 'estudantes'
     id: Mapped[int] = mapped_column(primary_key=True)
-    nome: Mapped[str]
-    curso_id = mapped_column(
-        ForeignKey('cursos.id'), nullable=True
+    nome: Mapped[str] = mapped_column(nullable=False)
+    
+    # Correct Many-to-Many relationship
+    cursos: Mapped[List[Curso]] = relationship(
+        "Curso",
+        secondary=estudante_curso,
+        back_populates="estudantes"
     )
 
 Base.metadata.create_all(bind=engine)
 
-info = Curso(nome='Informática')
-session.add(info)
+curso1=Curso(nome='Matemática')
+curso2 = Curso(nome='Progamação')
+estudante1=Estudante(nome='Alice')
+estudante2=Estudante(nome='Bob')
 
-x = Estudante(nome='Mané Cabelim')
-y = Estudante(nome='Zuca')
-z = Estudante(nome='Novim')
-session.add_all([y,x,z])
+
+
+
+# Associando cursos aos estudantes
+estudante1.cursos.append(curso1)  # Alice faz Matemática
+estudante1.cursos.append(curso2)  # Alice também faz Programação
+
+estudante2.cursos.append(curso1)  # Bob faz Matemática
+
+session.add_all([curso1,curso2,estudante1,estudante2])
 session.commit()
