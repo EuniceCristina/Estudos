@@ -13,8 +13,8 @@ class Base(DeclarativeBase):
 estudante_curso = Table(
     "estudante_cursos",
     Base.metadata,
-    Column('estudante_id', ForeignKey('estudantes.id'), primary_key=True),
-    Column('curso_id', ForeignKey('curso.id'), primary_key=True),
+    Column('estudantes_id', ForeignKey('estudantes.id'), primary_key=True),
+    Column('cursos_id', ForeignKey('cursos.id'), primary_key=True),
 )
 
 # relacionamento NxN
@@ -24,7 +24,7 @@ class Curso(Base):
     nome: Mapped[str]
 
 class Estudante(Base):
-    __tablename__ = 'Estudante'
+    __tablename__ = 'estudantes'
     id: Mapped[int] = mapped_column(primary_key=True)
     nome: Mapped[str]
    
